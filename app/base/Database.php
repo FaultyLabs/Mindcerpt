@@ -111,4 +111,11 @@
           return $this->stmt->rowCount();
       }
     }
+
+    /*
+    *  returns the id of the last item inserted
+    */
+    public function returnLastInsertId() {
+      return $this->dbh->lastInsertId();
+    }
   }

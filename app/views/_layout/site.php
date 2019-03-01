@@ -40,6 +40,15 @@
         <li class="nav-item">
           <a class="nav-link" href="./home/contact">Contact</a>
         </li>
+        <?php if (has_session('userId')) :?>
+            <li class="nav-item">
+              <a class="nav-link" href="./user/explore">Explore</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./post/create">Create</a>
+            </li>
+        <?php endif; ?>
+      </ul>
        
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Default Pages</a>
@@ -49,12 +58,19 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li> -->
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item my-2 my-lg-0">
-          <a class="nav-link disabled" href="./user/login">Login</a>
-        </li>
-      </ul>
+        <?php if (has_session('userId')) :?>
+          <ul class="navbar-nav">
+            <li class="nav-item my-2 my-lg-0">
+              <a class="nav-link disabled" href="./user/logout">Logout</a>
+            </li>
+          </ul>
+        <?php else : ?>
+          <ul class="navbar-nav">
+            <li class="nav-item my-2 my-lg-0">
+              <a class="nav-link disabled" href="./user/login">Login</a>
+            </li>
+          </ul>
+        <?php endif; ?>
       
     </div>
   </nav>

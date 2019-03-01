@@ -18,6 +18,16 @@
       return $this->db->resultSet();
     }
 
+    public function findallDesc($orderByColumn){
+      if(!is_null($orderByColumn)) {
+        $sql = "SELECT * FROM $this->table ORDER BY created_at=:created_at DESC";
+        $this->db->query($sql);
+        $this->db->bind(':created_at', $orderByColumn);
+        return $this->db->resultSet();
+      }
+    return false;
+    }
+
     public function findbyid($id = null){
       if(!is_null($id)){
           $sql = "SELECT * FROM $this->table WHERE id=:id";
@@ -186,6 +196,36 @@
       return $this->db->resultSet();
     }
 
+     /**
+   * Select data from database
+   * @param Array $columns table fields to select from the table
+   * @param String $where Where condition for limiting the size of rows returned
+   * @return Array returns an array of rows from the database table, if nothing is found returns 0
+   */
+    public function readexcept($columns = [], $where = [], $condition = 'AND'){
+      $sql = "SELECT ";
+      $sql .= join(",", array_values($columns));
+      $sql .= " FROM ". $this->table;
+
+      $attribute_pairs = array();
+      foreach($where as $key => $value) {
+        $attribute_pairs[] = "{$key}!=:{$key}";
+      }
+
+      if(!empty($where)){
+          $sql .= " WHERE ";
+          $sql .= join(" $condition ", $attribute_pairs);
+      }
+
+      $this->db->query($sql);
+
+      foreach($where as $key => $value){
+        $this->db->bind(":".$key, $value);
+      }
+
+      return $this->db->resultSet();
+    }
+
     /**
    * Delete a row from a database table
    * @param String $table Table to delete row from
@@ -212,6 +252,10 @@
 
     public function page_count($total_rows = 0){
       return ceil($total_rows/$this->page_limit);
+    }
+
+    public function lastInsertedId () {
+      return $this->db->returnLastInsertId();
     }
    }
 

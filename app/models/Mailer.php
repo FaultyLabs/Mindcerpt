@@ -58,6 +58,7 @@ class Mailer extends Model {
         //Read an HTML message body from an external file, convert referenced images to embedded,
         //convert HTML into a basic plain-text alternative body
         $this->mail->msgHTML(file_get_contents('./mail/welcome.html'), __DIR__);
+        
         //Replace the plain text body with one created manually
         // $this->mail->Body = 'This is a plain-text message body';
 
